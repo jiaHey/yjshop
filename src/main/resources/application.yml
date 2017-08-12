@@ -1,0 +1,33 @@
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8080
+spring:
+    # 环境 dev|test|pro
+    profiles:
+        active: dev
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+    # jackson时间格式化
+    jackson:
+        time-zone: GMT+8
+        date-format: yyyy-MM-dd HH:mm:ss
+    http:
+        multipart:
+            max-file-size: 100MB
+            max-request-size: 100MB
+            enabled: true
+    jpa:
+        properties:hibernate:hbm2ddl:auto: update
+        properties:hibernate:enable_lazy_load_no_trans: true
+        properties:hibernate:current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContex
+    thymeleaf:
+      cache: false
+    freemarker:
+      cache: false
+    devtools:
+      restart:
+        exclude: static/**,public/**,templates/**

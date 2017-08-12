@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <title>商品列表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../plugins/layer/layer.js"></script>
+    <script src="../../libs/bootstrap.min.js"></script>
+    <script src="../../libs/vue.min.js"></script>
+    <script src="../../libs/validator.min.js"></script>
+    <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+    <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+            <div class="form-group col-sm-2">
+                <input type="text" class="form-control" v-model="keyword" @keyup.enter="query" placeholder="搜索">
+            </div>
+            <a class="btn btn-default" @click="query">查询</a>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal" style="width: 100%">
+            <div class="form-group">
+                <div class="col-sm-1 control-label">用户名</div>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" v-model="goods.title" placeholder="名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">封面</label>
+
+                <div class="col-sm-11">
+                    <div v-if="goods.imgUrl" class="imgDiv">
+                        <img id="imgUrl" v-bind:src="goods.imgUrl"
+                             height="166px" width="200px">
+                        <img v-on:click="goods.imgUrl=null" src="/imgs/x.png" class="delete"/>
+                    </div>
+                    <br>
+                    <button type="button" onclick="upImage('imgUrl')" class="bk-margin-5 btn btn-success">修改
+                    </button>
+                </div>
+            </div>
+            <div v-if="goods.id" class="form-group">
+                <label class="col-sm-1 control-label">相册</label>
+
+                <div class="col-sm-11">
+                    <div v-for="(gallery,index) in gallery" class="imgDiv">
+                        <img v-bind:src="gallery.imgUrl"
+                             height="166px" width="200px">
+                        <img v-on:click="vm.gallery.splice(index,1)" src="/imgs/x.png" class="delete"/>
+                    </div>
+                    <br>
+                    <button type="button" onclick="upImage('gallery')" class="bk-margin-5 btn btn-success">修改
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1 control-label">价格</div>
+                <div class="col-sm-11">
+                    <input type="number" class="form-control" v-model="goods.price" placeholder="价格"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1 control-label">标签</div>
+                <div class="col-sm-11">
+                    <label v-for="tags in goodsTagsList" class="checkbox-inline">
+                        <input name="goodsTags[]" :value="tags.id" v-model="goodsTagsIdList" type="checkbox">{{tags.title}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">内容</label>
+
+                <div class="col-sm-11">
+                    <textarea id="content" v-model="goods.content" name="content"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script src="../../plugins/ueditor/ueditor.js"></script>
+<script src="../../js/modules/shop/goods.js"></script>
+</body>
+</html>
