@@ -31,16 +31,12 @@ public class Order {
     private BigDecimal price;
     @NotNull
     private String addressStr;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Address address;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     @JsonIgnore
     private User user;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
-    @JsonIgnore
     private Set<OrderGoods> orderGoods;
     @Column(nullable = true, columnDefinition = "timestamp default current_timestamp")
     private Date created;
@@ -72,13 +68,6 @@ public class Order {
         this.addressStr = addressStr;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 
     public Set<OrderGoods> getOrderGoods() {
         return orderGoods;

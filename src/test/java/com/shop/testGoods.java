@@ -3,6 +3,7 @@ package com.shop;
 import com.shop.modules.shop.dao.GoodsRepository;
 import com.shop.modules.shop.domain.Goods;
 import com.shop.modules.shop.domain.GoodsGallery;
+import com.shop.modules.shop.domain.GoodsTags;
 import com.shop.modules.shop.service.GoodsService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,7 @@ public class testGoods {
 //        goodsGalleries.add(goodsGallery);
 //        goods.setGallery(goodsGalleries);
 
-        goodsService.saveGoods(goods);
+        goodsService.save(goods);
 
     }
 
@@ -59,11 +60,6 @@ public class testGoods {
 
     @Test
     public void testTags() {
-        HashSet<Long> ids = new HashSet<Long>();
-        ids.add(1L);
-        ids.add(3L);
-        ids.add(2L);
-        goodsService.findByTags(ids);
     }
 
 }

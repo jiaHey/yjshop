@@ -22,8 +22,11 @@ public class GoodsService {
         return goodsRepository.findFullText(text, pageable);
     }
 
-    public Goods saveGoods(Goods goods) {
+    public Goods save(Goods goods) {
         goods.setUpdated(new Date());
+        if (goods.getId() == null) {
+            goods.setSaleCount(0);
+        }
         return goodsRepository.save(goods);
     }
 
@@ -39,15 +42,19 @@ public class GoodsService {
         return goodsRepository.findDetailById(id);
     }
 
-    public List<Goods> findByTags(Set<Long> ids) {
-        return goodsRepository.findGoodsByTagsId(ids);
+    public Page<Goods> findByTagsIn(Set<Long> ids,Pageable pageable) {
+        return goodsRepository.findByTagsIn(ids,pageable);
+    }
+
+    public Page<Goods> findByTags(Long id,Pageable pageable) {
+        return goodsRepository.findByTags(id,pageable);
     }
 
     public void deleteBatch(Long[] userIds) {
         ArrayList<Goods> goodsArrayList = new ArrayList<Goods>();
         Goods goods;
-        for (Long uid:userIds) {
-            goods=new Goods();
+        for (Long uid : userIds) {
+            goods = new Goods();
             goods.setId(uid);
             goodsArrayList.add(goods);
         }
@@ -55,6 +62,10 @@ public class GoodsService {
     }
 
     public Goods findOne(Long id) {
-        return  goodsRepository.findOne(id);
+        return goodsRepository.findOne(id);
+    }
+
+    public Page<Goods> findAll(Pageable pageable) {
+        return goodsRepository.findAll(pageable);
     }
 }

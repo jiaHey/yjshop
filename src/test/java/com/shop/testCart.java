@@ -1,5 +1,6 @@
 package com.shop;
 
+import com.shop.common.utils.PageUtil;
 import com.shop.modules.shop.dao.CartRepository;
 import com.shop.modules.shop.domain.Cart;
 import com.shop.modules.shop.domain.Goods;
@@ -11,9 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 
@@ -35,11 +39,6 @@ public class testCart {
 
     @Test
     public void cartGoods() {
-        List<Cart> carts = cartRepository.findCartByUserId(1L);
-        for (Cart c :
-                carts) {
-            System.out.println(c.getGoods());
-        }
     }
 
     @Test
@@ -49,7 +48,7 @@ public class testCart {
 
     @Test
     public void addCartGoods() {
-        Goods g = goodsService.findById(1L);
+        Goods g = goodsService.findById(5L);
         User u = userService.findById(1L);
         cartService.addCartGoods(u, g);
     }
@@ -63,6 +62,23 @@ public class testCart {
     @Test
     public void findCardIds() {
         HashSet<Long> longs = new HashSet<Long>();
-        cartRepository.findCartByIdIn(longs);
+    }
+
+    @Test
+    public void findUserCart() {
+        User user = userService.loginWx();
+        cartRepository.findAllByUserEquals(user);
+    }
+
+    @Test
+    public void updateUserCart() {
+        HashSet<Cart> carts = new HashSet<Cart>();
+        Cart cart = new Cart();
+        cart.setNumber(1);
+        cart.setGoods(goodsService.findById(5L));
+        carts.add(cart);
+        User user = userService.loginWx();
+        user.setCart(carts);
+        userService.save(user);
     }
 }

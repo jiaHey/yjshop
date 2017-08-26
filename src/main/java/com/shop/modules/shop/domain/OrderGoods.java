@@ -1,5 +1,7 @@
 package com.shop.modules.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -10,8 +12,9 @@ public class OrderGoods {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsId")
+    @JsonIgnore
     private Goods goods;
 
     private String goodsTitle;

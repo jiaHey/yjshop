@@ -26,7 +26,8 @@ public class PageUtil {
         String sord = request.getParameter("sord");
         PageRequest pageable;
         if (StringUtils.isNotEmpty(sidx)) {
-            pageable = new PageRequest(page, rows, new Sort(sord.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sidx));
+            pageable = new PageRequest(page, rows, new Sort(sord.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC
+                    , sidx==null?"id":sidx));
         } else {
             pageable = new PageRequest(page, rows);
         }

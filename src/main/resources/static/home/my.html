@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="rrapp" class="wrapper">
+    <div class="weui-navbar__item head">
+        YJSHOP
+    </div>
+    <div class="headimgurl">
+        <img v-bind:src="pic" >
+    </div>
+    <div class="weui-cells">
+        <a href="address.html" class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
+                <p>收货地址</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="order.html">
+            <div class="weui-cell__bd">
+                <p>订单管理</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>联系我们</p>
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="weui-footer">
+            <p class="weui-footer__links">
+                <a href="javascript:void(0);" class="weui-footer__link">power by</a>
+            </p>
+            <p class="weui-footer__text">jiaHey</p>
+        </div>
+    </div>
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-home.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="type.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="cart.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-cart.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-user-active.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+</div>
+</div>
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/my.js' charset='utf-8'></script>
+</body>
+</html>

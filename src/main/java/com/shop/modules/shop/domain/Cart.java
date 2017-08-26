@@ -1,5 +1,7 @@
 package com.shop.modules.shop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -18,12 +20,20 @@ public class Cart {
     @NotNull
     @Column(columnDefinition = "INT(11) UNSIGNED DEFAULT '0'")
     private Integer number;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name="goods_id")
+    @ManyToOne
+    @JoinColumn(name = "goods_id")
     private Goods goods;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name="user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
+
+
+    public Cart() {
+
+    }
+
+
 
     public Long getId() {
         return id;
@@ -56,4 +66,5 @@ public class Cart {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

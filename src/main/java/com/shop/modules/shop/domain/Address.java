@@ -12,22 +12,22 @@ public class Address {
     private Long id;
     private String address;
     private String area;
+
     private String phone;
     @ManyToOne
     private User user;
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private IsDefault isDefault;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean isDefault;
     public Long getId() {
         return id;
     }
 
-    public IsDefault getIsDefault() {
+    public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(IsDefault isDefault) {
-        this.isDefault = isDefault;
+    public void setIsDefault(Boolean aDefault) {
+        isDefault = aDefault;
     }
 
     public void setId(Long id) {

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Set;
 
@@ -33,9 +34,9 @@ public class User {
 
 
 
-    @OneToMany
-    @JoinColumn(name="goods_id")
+    @JoinColumn(name="user_id")
     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Cart> cart;
 
     public User(){}

@@ -18,5 +18,5 @@ public interface GoodsTagsRepository extends JpaRepository<GoodsTags,Long> {
     @Query("select t from GoodsTags t where t.title like CONCAT('%',:text,'%')")
     Page<GoodsTags> findFullText(@Param("text") String text, Pageable page);
 
-    public List<GoodsTags> findByIsShowEquals(boolean isShow);
+    public List<GoodsTags> findByIsShowEquals(Boolean isShow);
 }

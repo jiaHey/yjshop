@@ -31,6 +31,7 @@ public class GoodsTags {
     private Boolean isHot;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isShow;
+
     public Long getId() {
         return id;
     }
@@ -60,14 +61,6 @@ public class GoodsTags {
     }
 
     public void setIsHot(Boolean hot) {
-        isHot = hot;
-    }
-
-    public Boolean getHot() {
-        return isHot;
-    }
-
-    public void setHot(Boolean hot) {
         isHot = hot;
     }
 

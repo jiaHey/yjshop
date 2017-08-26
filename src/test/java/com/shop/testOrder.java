@@ -29,22 +29,30 @@ public class testOrder {
     private AddressService addressService;
     @Autowired
     private UserService userService;
+
     @Test
-    public void pageUser(){
+    public void pageUser() {
         PageRequest pageable = new PageRequest(1, 10, new Sort(Sort.Direction.DESC, "id"));
         orderRepository.pageByUserId(1L, pageable);
     }
+
     @Test
-    public void findById(){
+    public void findById() {
         orderRepository.findByIdIs(1L);
     }
+
     @Test
-    public void newOrder(){
-        User us = userService.findById(1L);
-        Address address = addressService.findDefaultAddress(us.getId());
-        HashSet<Long> ids = new HashSet<Long>();
-        ids.add(1L);
-        ids.add(2L);
-        orderService.newOrder(us,ids,address);
+    public void createOrder() {
+        User user = userService.loginWx();
+        Address defaultAddress = addressService.findDefaultAddress(user.getId());
+        orderService.createOrder(user, defaultAddress);
+    }
+
+    @Test
+    public void pageDetail() {
+        User user = userService.loginWx();
+        PageRequest pageable = new PageRequest(1, 10, new Sort(Sort.Direction.DESC, "id"));
+
+        orderRepository.findDetailByUserEquals(user, pageable);
     }
 }

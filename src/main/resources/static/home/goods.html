@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+</head>
+<body>
+<div id="rrapp" class="wrapper">
+    <header>
+        <div class="weui-navbar">
+            <div class="weui-navbar__item head">
+                YJSHOP
+            </div>
+        </div>
+    </header>
+
+    <div id="gallery" class="swiper-container slide">
+        <div class="swiper-wrapper">
+            <div v-for="(item,index) in gallery" class="swiper-slide">
+                <img style="height:300px;" v-bind:src="item.imgUrl"/>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>名称</p>
+            </div>
+            <div class="weui-cell__ft">{{goods.title}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>价格</p>
+            </div>
+            <div class="weui-cell__ft">{{goods.price}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>卖出个数</p>
+            </div>
+            <div class="weui-cell__ft">{{goods.saleCount}}</div>
+        </div>
+    </div>
+    <div class="content" v-html="goods.content"></div>
+    <div class="weui-tabbar">
+        <a id="back" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">返回</p>
+        </a>
+        <a id="addCart" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-plus-circle.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">加入购物车</p>
+        </a>
+    </div>
+</div>
+
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-weui/dist/js/jquery-weui.js"></script>
+<script type='text/javascript' src='node_modules/jquery-weui/dist/js/swiper.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/goods.js' charset='utf-8'></script>
+</body>
+</html>

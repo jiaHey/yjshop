@@ -5,6 +5,8 @@ import com.shop.modules.shop.domain.Cart;
 import com.shop.modules.shop.domain.Goods;
 import com.shop.modules.shop.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,7 +19,7 @@ public class CartService {
     private CartRepository cartRepository;
 
 
-    public List<Cart> cartGoods(Long uid) {
+    public List<Cart> findCartByUserId(Long uid) {
         return cartRepository.findCartByUserId(uid);
     }
 
@@ -28,7 +30,7 @@ public class CartService {
      * @param goods 商品
      */
     public Cart addCartGoods(User user, Goods goods) {
-        Cart cart = cartRepository.findFirstByGoodsIdAndUserId(user.getId(), goods.getId());
+        Cart cart = cartRepository.findFirstByGoodsIdAndUserId(goods.getId(), user.getId());
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
@@ -39,6 +41,7 @@ public class CartService {
         }
         return cartRepository.save(cart);
     }
+
     @Transactional
     public void deleteCartGoods(Long cid) {
         cartRepository.delete(cid);
@@ -47,5 +50,22 @@ public class CartService {
     @Transactional
     public Integer cleanCartGoods(Long uid) {
         return cartRepository.deleteByUserId(uid);
+    }
+
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
+    }
+
+    public void delete(Long id) {
+        cartRepository.delete(id);
+    }
+
+    public Cart findByIdEquals(Long id) {
+        return cartRepository.findByIdEquals(id);
+    }
+
+    @Transactional
+    public void deleteByUserEquals(User user) {
+        cartRepository.deleteByUserEquals(user);
     }
 }

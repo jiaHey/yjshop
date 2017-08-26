@@ -34,7 +34,7 @@ public class Application extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
 
-        registry.addMapping("/admin/**")
+        registry.addMapping("/**")
                 .allowedHeaders("Access-Control-Allow-Origin")
                 .allowCredentials(false).maxAge(3600);
     }

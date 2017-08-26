@@ -31,7 +31,7 @@ public class GoodsTagsService {
         goodsTagsRepository.delete(id);
     }
 
-    public List<GoodsTags> findByIsShowEquals(boolean isShow) {
+    public List<GoodsTags> findByIsShowEquals(Boolean isShow) {
        return goodsTagsRepository.findByIsShowEquals(isShow);
     }
 

@@ -1,6 +1,7 @@
 package com.shop.modules.shop.service;
 
 import com.shop.common.exception.RRException;
+import com.shop.config.WxProperties;
 import com.shop.modules.shop.dao.UserRepository;
 import com.shop.modules.shop.domain.User;
 import com.shop.modules.sys.domain.SysConfig;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Date;
 
@@ -35,16 +37,20 @@ public class UserService {
     private HttpServletResponse response;
     @Autowired
     private SysConfigService sysConfigService;
+    @Autowired
+    private WxProperties wxProperties;
 
     public User loginWx() {
+//        User one = userRepository.findOne(1L);
+//        if (one != null) return one;
         User user;
         user = (User) session.getAttribute("user");
-        if(user!=null) return user;
+        if (user != null) return user;
 
-        SysConfig appid = sysConfigService.findByNameEquals("appid");
-        SysConfig secret = sysConfigService.findByNameEquals("secret");
-        if(appid==null||secret==null){
-            throw new RRException("公众号配置错误");
+        SysConfig appid = sysConfigService.findByNameEquals(wxProperties.getAppId());
+        SysConfig secret = sysConfigService.findByNameEquals(wxProperties.getAppSecret());
+        if (appid == null || secret == null) {
+            throw new RRException("公众号配置未填写");
         }
         WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
         config.setAppId(appid.getValue()); // 设置微信公众号的appid
@@ -79,10 +85,11 @@ public class UserService {
             user.setCreated(new Date());
             save(user);
         }
-        session.setAttribute("user",user);
+        session.setAttribute("user", user);
         return user;
     }
 
+    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
@@ -92,6 +99,6 @@ public class UserService {
     }
 
     public Page<User> findFullText(String keyword, PageRequest page) {
-       return userRepository.findFullText(keyword,page);
+        return userRepository.findFullText(keyword, page);
     }
 }

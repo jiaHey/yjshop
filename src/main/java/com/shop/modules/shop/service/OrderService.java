@@ -5,9 +5,11 @@ import com.shop.modules.shop.dao.OrderRepository;
 import com.shop.modules.shop.domain.*;
 import com.shop.common.utils.UtilOrder;
 import com.shop.modules.shop.domain.enums.OrderStatus;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -21,29 +23,21 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
+    private CartService cartService;
+    @Autowired
     private CartRepository cartRepository;
-
-    public Page<Order> pageNew(Integer page) {
-        PageRequest pageable = new PageRequest(page, 10, new Sort(Sort.Direction.DESC, "id"));
-        return orderRepository.findAll(pageable);
-    }
-
-    public Page<Order> pageNewByUserId(Long uid, Integer page) {
-        PageRequest pageable = new PageRequest(page, 10, new Sort(Sort.Direction.DESC, "id"));
-        return orderRepository.pageByUserId(uid, pageable);
-    }
 
     public Order findDetailById(Long id) {
         return orderRepository.findByIdIs(id);
     }
 
     @Transactional
-    public Order newOrder(User user, Set<Long> ids, Address address) {
+    public Order createOrder(User user, Address address) {
         Order order = new Order();
         order.setNumber(UtilOrder.genOrderNum());
         order.setStatus(OrderStatus.UNPAID);
         order.setUser(user);
-        List<Cart> carts = cartRepository.findCartByIdIn(ids);
+        List<Cart> carts = cartRepository.findAllByUserEquals(user);
         Iterator<Cart> iterator = carts.iterator();
         Set<OrderGoods> orderGoodsSet = new HashSet<OrderGoods>();
         BigDecimal priceTotal = new BigDecimal(0);
@@ -60,9 +54,8 @@ public class OrderService {
         }
         order.setOrderGoods(orderGoodsSet);
         order.setPrice(priceTotal);
-        order.setAddress(address);
-        order.setAddressStr(address.getArea() + address.getAddress());
-//        cartRepository.deleteByIdIn(ids);
+        order.setAddressStr(address.getArea() + "" + address.getAddress());
+        cartService.deleteByUserEquals(user);
         return orderRepository.save(order);
     }
 
@@ -72,11 +65,21 @@ public class OrderService {
     }
 
     public Page<Order> findFullText(String keyword, PageRequest page) {
-        return  orderRepository.findFullText(keyword,page);
+        return orderRepository.findFullText(keyword, page);
     }
 
+    public Page<Order> findAllByUserEquals(User user, Pageable pageable) {
+        return orderRepository.findAllByUserEquals(user, pageable);
+    }
+    public Page<Order> findDetailByUserEquals(User user, Pageable pageable){
+        return orderRepository.findDetailByUserEquals(user, pageable);
+    }
 
     public void delete(Long id) {
         orderRepository.delete(id);
+    }
+
+    public Order findOne(Long id) {
+        return orderRepository.findOne(id);
     }
 }

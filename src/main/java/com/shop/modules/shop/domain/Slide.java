@@ -1,9 +1,10 @@
 package com.shop.modules.shop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.shop.common.enums.IsDefault;
+import com.shop.common.enums.YesNo;
+import com.shop.modules.shop.domain.enums.SlideType;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "y_slide")
@@ -14,10 +15,13 @@ public class Slide {
     @NotNull
     private String title;
     @NotNull
-    private String pic;
-    @NotNull
+    private String imgUrl;
     private String url;
-
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean isShow;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Enumerated(EnumType.ORDINAL)
+    private SlideType type;
     public Long getId() {
         return id;
     }
@@ -34,13 +38,6 @@ public class Slide {
         this.title = title;
     }
 
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
 
     public String getUrl() {
         return url;
@@ -48,5 +45,30 @@ public class Slide {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+
+    public SlideType getType() {
+        return type;
+    }
+
+    public void setType(SlideType type) {
+        this.type = type;
+    }
+
+    public Boolean getIsShow() {
+        return isShow;
+    }
+
+    public void setIsShow(Boolean show) {
+        isShow = show;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

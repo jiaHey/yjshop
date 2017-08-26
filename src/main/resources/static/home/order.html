@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="rrapp" class="wrapper">
+    <div class="weui-navbar__item head">
+        YJSHOP
+    </div>
+    <div v-if="orderListShow" class="weui-panel weui-panel_access  list">
+        <div class="weui-panel__hd">订单列表</div>
+        <div v-for="item in orderList" @click="orderDetail(item)" class="weui-media-box list">
+            <div style="text-align: right">
+                <p v-if="item.status=='UNPAID'" class="weui-media-box__desc" style="color: red">未付款</p>
+                <p v-if="item.status=='PAID'" class="weui-media-box__desc">已付款</p>
+                <p v-if="item.status=='DELIVER'" class="weui-media-box__desc">运输中</p>
+                <p v-if="item.status=='FINISH'" class="weui-media-box__desc">已完成</p>
+                <p v-if="item.status=='CANCELING'" class="weui-media-box__desc">取消中</p>
+                <p v-if="item.status=='CANCELED'" class="weui-media-box__desc">已取消</p>
+            </div>
+            <div class="weui-uploader">
+                <div class="weui-uploader__bd">
+                    <ul class="weui-uploader__files">
+                        <img v-for="orderGoods in item.orderGoods" class="weui-uploader__file"
+                             v-bind:src="orderGoods.goodsImgUrl"/>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="text-align: right">
+                <p class="weui-media-box__title">共{{item.orderGoods.length}}个商品，共{{item.price}}元</p>
+                <p class="weui-media-box__desc">{{item.created}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="!orderListShow" class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">订单号 {{order.number}}</div>
+        <div v-for="orderGoods in order.orderGoods" class="weui-panel__bd">
+            <a  @click="goodsDetail(orderGoods.id)" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" v-bind:src="orderGoods.goodsImgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{orderGoods.goodsTitle}}</h4>
+                </div>
+                <div class="weui-media-box__info">
+                    <div class="weui-flex">
+                        <div class="weui-media-box__info__meta">数量 {{orderGoods.goodsNum}}</div>
+                        <div class="weui-media-box__info__meta_extra">总价 {{orderGoods.goodsNum * orderGoods.goodsPrice}}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="weui-panel__hd">
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title">{{order.addressStr}}</h4>
+            </div>
+            <div class="weui-media-box__info">
+                <div class="weui-flex">
+                    <div class="weui-media-box__info__meta">总价格 {{order.price}}</div>
+                    <div class="weui-media-box__info__meta_extra">{{order.created}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="button-sp-area">
+            <a onclick="vm.orderListShow=true"  class="weui-btn weui-btn_warn">返回</a>
+        </div>
+    </div>
+
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-home.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="type.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="cart.html;" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-cart.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="my.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-user-active.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+</div>
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-weui/dist/js/jquery-weui.js"></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/order.js' charset='utf-8'></script>
+</body>
+</html>

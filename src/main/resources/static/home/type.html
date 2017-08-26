@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="rrapp" class="wrapper" style="   display: flex;">
+
+    <div class="nav_left">
+        <div @click="changeTags(item.id)" v-for="(item,index) in goodsTagsList" class="nav_left_item">
+            {{item.title}}
+        </div>
+    </div>
+    <div style="height: 700px" id="lists" class="nav_right">
+        <div class="weui-panel weui-panel_access list">
+            <div class="weui-panel__bd list">
+                <a v-for="(item,index) in goodsList" v-bind:gId="item.id" onclick="goodsDetail(this)" class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" v-bind:src="item.imgUrl">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.title}}</h4>
+                        <div class="weui-media-box__desc">
+                            <div class="weui-flex">
+                                <div class="weui-flex__item" style="color: red">{{item.price}}元</div>
+                                <div class="weui-flex__item">{{item.saleCount}}人已购买</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-home.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list-active.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="cart.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-cart.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-user.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+</div>
+
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-weui/dist/js/jquery-weui.js"></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/type.js' charset='utf-8'></script>
+</body>
+</html>

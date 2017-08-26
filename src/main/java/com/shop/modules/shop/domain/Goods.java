@@ -47,6 +47,8 @@ public class Goods {
     @Min(value = 0,message = "价格必须大于0")
     @NotNull(message = "价格不能为空")
     private BigDecimal price;
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private Integer saleCount;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "goodsId")
@@ -162,4 +164,11 @@ public class Goods {
         this.content = content;
     }
 
+    public Integer getSaleCount() {
+        return saleCount;
+    }
+
+    public void setSaleCount(Integer saleCount) {
+        this.saleCount = saleCount;
+    }
 }

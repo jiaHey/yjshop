@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="rrapp" class="wrapper">
+    <div class="weui-navbar__item head">
+        YJSHOP
+    </div>
+    <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__bd list">
+
+            <a v-if="!edit" v-for="(item,index) in cart" v-bind:gId="item.goods.id" href="javascript:void(0);" onclick="goodsDetail(this)" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" v-bind:src="item.goods.imgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.goods.title}}</h4>
+                    <div class="weui-media-box__desc">
+                        <div class="weui-flex__item" style="color: red">{{item.goods.price}}元</div>
+                    </div>
+                    <div class="weui-media-box__info">
+                        <div class="weui-flex">
+                            <div class="weui-media-box__info__meta">数量{{item.number}}</div>
+                            <div class="weui-media-box__info__meta_extra">总价{{item.number * item.goods.price}}</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div v-if="edit" v-for="(item,index) in cart" href="javascript:void(0);"   class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" v-bind:src="item.goods.imgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <a onclick="cartEdit(this,+1)" v-bind:cIndex="index" href="javascript:;" class="weui-btn weui-btn_default quantity">+</a>
+                    <span class=" weui-btn weui-btn_default quantity">{{item.number}}</span>
+                    <a onclick="cartEdit(this,-1)" v-bind:cIndex="index" href="javascript:;" class="weui-btn weui-btn_default quantity">-</a>
+                    <a  onclick="cartDelete(this)" v-bind:cIndex="index" href="javascript:;" class="weui-btn weui-btn_default quantity">删除</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="button-sp-area">
+        <a id="edit" class="weui-btn weui-btn_default">{{editText}}</a>
+        <a id="buy" class="weui-btn weui-btn_primary">结算</a>
+        <a id="clear" class="weui-btn weui-btn_warn">清空</a>
+    </div>
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-home.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="type.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-cart-active.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="my.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-user.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+</div>
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-weui/dist/js/jquery-weui.js"></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/cart.js' charset='utf-8'></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" href="node_modules/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="node_modules/jquery-weui/dist/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="rrapp" class="wrapper">
+    <div class="weui-navbar__item head">
+        YJSHOP
+    </div>
+    <div v-if="showList" class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">地址管理</div>
+        <div class="weui-panel__bd">
+            <a v-for="item in addressList" @click="addressInfo(item.id)"  href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box">
+                    <p v-if="item.isDefault" class="weui-media-box__title" style="color: red">默认</p>
+                    <p class="weui-media-box__desc">{{item.area}}{{item.address}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div v-if="!showList" class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+            <div class="weui-cell__bd">
+                <input v-model="address.phone" class="weui-input" type="tel" placeholder="手机号码">
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">默认地址</div>
+            <div class="weui-cell__ft">
+                <label for="switchCP" class="weui-switch-cp">
+                    <input v-model="address.isDefault" id="switchCP" class="weui-switch-cp__input" type="checkbox"
+                           checked="checked">
+                    <div class="weui-switch-cp__box"></div>
+                </label>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">地区</label></div>
+            <div class="weui-cell__bd">
+                <input type="text" class="weui-input" id='city-picker' v-model="address.area"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <textarea v-model="address.address" class="weui-textarea" placeholder="详细地址" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <a @click="addressSave" class="weui-btn weui-btn_primary">保存</a>
+        </div>
+    </div>
+
+    <div class="weui-tabbar">
+        <a href="index.html" class="weui-tabbar__item weui-bar__item--on">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-home.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="type.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-list.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="cart.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-cart.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="my.html" class="weui-tabbar__item">
+            <div class="weui-tabbar__icon">
+                <img src="/home/images/iconfont-user-active.png" alt="">
+            </div>
+            <p class="weui-tabbar__label">我</p>
+        </a>
+    </div>
+</div>
+<script src="libs/vue.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-weui/dist/js/jquery-weui.js"></script>
+<script src="node_modules/jquery-weui/dist/js/city-picker.js"></script>
+<script type='text/javascript' src='js/common.js' charset='utf-8'></script>
+<script type='text/javascript' src='js/address.js' charset='utf-8'></script>
+</body>
+</html>
