@@ -31,10 +31,13 @@ public class SysMenuService {
         return sysMenuRepository.findPermsAll();
     }
 
-    public List<SysMenu> findNotButtonList() {
-        return sysMenuRepository.findNotButtonList();
+    public List<SysMenu> findMenuList() {
+        return sysMenuRepository.findMenuList();
     }
 
+    public List<SysMenu> findUserMenuList(Long userId){
+        return sysMenuRepository.findUserMenuList(userId);
+    }
     public SysMenu save(SysMenu menu) {
         if(menu.getParentId()!=null&&menu.getParentId()<1) menu.setParentId(null);
         return sysMenuRepository.save(menu);

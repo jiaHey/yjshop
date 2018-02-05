@@ -65,7 +65,7 @@ var vm = new Vue({
             });
         },
         getUser: function () {
-            $.getJSON(baseURL + "sys/user/info/1", function (r) {
+            $.getJSON(baseURL + "sys/user/info", function (r) {
                 vm.user = r.user;
             });
         },
@@ -108,20 +108,10 @@ var vm = new Vue({
                     //删除本地token
                     localStorage.removeItem("token");
                     //跳转到登录页面
-                    location.href = baseURL + 'login.html';
+                    location.href = baseURL + 'admin/login.html';
                 }
             });
         },
-        donate: function () {
-            layer.open({
-                type: 2,
-                title: false,
-                area: ['806px', '467px'],
-                closeBtn: 1,
-                shadeClose: false,
-                content: ['http://cdn.renren.io/donate.jpg', 'no']
-            });
-        }
     },
     created: function () {
         this.getMenuList();

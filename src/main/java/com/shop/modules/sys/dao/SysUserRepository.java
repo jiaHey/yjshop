@@ -12,4 +12,7 @@ public interface SysUserRepository extends JpaRepository<SysUser, Long> {
     Page<SysUser> findByUsernameContains(String name, Pageable pageable);
 
     Integer countByUsernameContains(String string);
+
+    SysUser findByUsernameEquals(String username);
+
 }

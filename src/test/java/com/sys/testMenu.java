@@ -37,13 +37,12 @@ public class testMenu {
 
     @Test
     public void permissions() {
-        List<SysMenu> notButtonList = sysMenuService.findNotButtonList();
+        List<SysMenu> notButtonList = sysMenuService.findMenuList();
         entityManager.clear();
         System.out.println("as");
     }
 
     @Test
     public void testMenu() {
-        System.out.println("aa");
     }
 }

@@ -4,6 +4,9 @@ import com.shop.modules.shop.domain.User;
 import com.shop.modules.sys.domain.SysUser;
 import com.shop.modules.sys.service.ShiroService;
 import com.shop.modules.sys.service.SysUserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -19,7 +22,6 @@ import static org.apache.shiro.web.filter.mgt.DefaultFilter.user;
 
 /**
  * 认证
- *
  */
 @Component
 public class OAuth2Realm extends AuthorizingRealm {
@@ -28,6 +30,7 @@ public class OAuth2Realm extends AuthorizingRealm {
     private SysUserService sysUserService;
     @Autowired
     private ShiroService shiroService;
+
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof OAuth2Token;
@@ -38,7 +41,7 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUser user = (SysUser)principals.getPrimaryPrincipal();
+        SysUser user = (SysUser) principals.getPrimaryPrincipal();
         //用户权限列表
 
         Set<String> permsSet = shiroService.getUserPermissions(user.getId());
@@ -54,9 +57,9 @@ public class OAuth2Realm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String accessToken = (String) token.getPrincipal();
-
-
-        SysUser user = sysUserService.findOne(1L);
+        Jws<Claims> auth = Jwts.parser().setSigningKey(SysUser.SIGNKEY).parseClaimsJws(accessToken);
+        String id = auth.getBody().getId();
+        SysUser user = sysUserService.findOne(Long.parseLong(id));
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, accessToken, getName());
         return info;
     }

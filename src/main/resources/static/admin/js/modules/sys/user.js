@@ -12,7 +12,7 @@ $(function () {
 					'<span class="label label-danger">禁用</span>' : 
 					'<span class="label label-success">正常</span>';
 			}},
-			{ label: '创建时间', name: 'createTime', index: "create_time", width: 80}
+			{ label: '创建时间', name: 'created', index: "created", width: 80}
         ],
 		viewrecords: true,
         height: 385,

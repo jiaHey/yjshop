@@ -18,14 +18,13 @@ var url = function(name) {
 T.p = url;
 
 //请求前缀
-//var baseURL = "http://www.juziku.com/";
-//var baseURL = "/renren-fast/";
 var baseURL = "/";
 
 //登录token
 var token = localStorage.getItem("token");
-if(token == 'null'){
-    parent.location.href = baseURL + 'login.html';
+if(!token||token=="undefined"){
+    parent.location.href = baseURL + 'admin/login.html';
+    // token='eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwiZXhwIjoxNTA2NTgwOTA5fQ.BT7FLBqneq6FZQ_3PT_dzZk3wbr3qizLIaZBQH-h47YFArswE5E0ZKuQZeiw2EuNkvAtwWXBipmnqg7nAzvYPg';
 }
 //jquery全局配置
 $.ajaxSetup({
@@ -38,9 +37,8 @@ $.ajaxSetup({
 	    withCredentials: true
     },
     complete: function(xhr) {
-        //token过期，则跳转到登录页面
         if(xhr.responseJSON.code == 401){
-            parent.location.href = baseURL + 'login.html';
+            parent.location.href = baseURL + 'admin/login.html';
         }
     }
 });

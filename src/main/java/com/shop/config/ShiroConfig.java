@@ -46,26 +46,25 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
-
         //oauth过滤
         Map<String, Filter> filters = new HashMap<String,Filter>();
         filters.put("oauth2", new OAuth2Filter());
         shiroFilter.setFilters(filters);
 
         Map<String, String> filterMap = new LinkedHashMap<String,String>();
-//        filterMap.put("/webjars/**", "anon");
-//        filterMap.put("/druid/**", "anon");
-//        filterMap.put("/api/**", "anon");
-//        filterMap.put("/sys/login", "anon");
-//        filterMap.put("/**/*.js", "anon");
-//        filterMap.put("/**/*.css", "anon");
-//        filterMap.put("/**/*.html", "anon");
-//        filterMap.put("/fonts/**", "anon");
-//        filterMap.put("/plugins/**", "anon");
-//        filterMap.put("/swagger/**", "anon");
-//        filterMap.put("/favicon.ico", "anon");
-//        filterMap.put("/captcha.jpg", "anon");
-//        filterMap.put("/", "anon");
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/druid/**", "anon");
+        filterMap.put("/api/**", "anon");
+        filterMap.put("/sys/login", "anon");
+        filterMap.put("/**/*.js", "anon");
+        filterMap.put("/**/*.css", "anon");
+        filterMap.put("/**/*.html", "anon");
+        filterMap.put("/fonts/**", "anon");
+        filterMap.put("/plugins/**", "anon");
+        filterMap.put("/swagger/**", "anon");
+        filterMap.put("/favicon.ico", "anon");
+        filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/", "anon");
         filterMap.put("/sys/**", "oauth2");
         filterMap.put("/shop/**", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterMap);

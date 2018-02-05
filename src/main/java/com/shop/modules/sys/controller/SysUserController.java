@@ -50,9 +50,9 @@ public class SysUserController extends AbstractController {
     /**
      * 获取登录的用户信息
      */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id) {
-        SysUser user = sysUserService.findOne(id);
+    @RequestMapping("/info")
+    public R info() {
+        SysUser user = getSysUser();
         //角色ids
         HashSet<Long> roleIdList = new HashSet<Long>();
         Iterator<SysRole> iterator = user.getSysRoles().iterator();
@@ -69,18 +69,31 @@ public class SysUserController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:user:save")
     public R save(SysUser user) {
-        user.setUserId(getUserId());
-
+        SysUser sysUser;
+        if (user.getId() == null) {
+            sysUser = new SysUser();
+            sysUser.setUserId(getUserId());
+        } else {
+            sysUser = sysUserService.findOne(user.getId());
+        }
+        //更新用户
+        sysUser.setUsername(user.getUsername());
+        sysUser.setMobile(user.getMobile());
+        sysUser.setEmail(user.getEmail());
+        sysUser.setPassword(user.getPassword());
         //更新角色
         String[] roleIdList = request.getParameterValues("roleIdList[]");
-        HashSet<Long> roleIds = new HashSet<Long>();
-        for (String roleId : roleIdList) {
-            roleIds.add(Long.parseLong(roleId));
+        if (roleIdList != null) {
+            HashSet<Long> roleIds = new HashSet<Long>();
+            for (String roleId : roleIdList) {
+                roleIds.add(Long.parseLong(roleId));
+            }
+            List<SysRole> roles = sysRoleService.findAll(roleIds);
+            sysUser.setSysRoles( new HashSet<SysRole>(roles));
+        }else{
+            sysUser.setSysRoles(null);
         }
-        List<SysRole> roles = sysRoleService.findAll(roleIds);
-        user.setSysRoles(new HashSet<SysRole>(roles));
-        sysUserService.save(user);
-
+        sysUserService.save(sysUser);
         return R.ok();
     }
 
@@ -93,13 +106,13 @@ public class SysUserController extends AbstractController {
         Assert.isBlank(newPassword, "新密码不为能空");
 
         //sha256加密
-        password = new Sha256Hash(password, "").toHex();
+        password = new Sha256Hash(password).toHex();
         //sha256加密
-        newPassword = new Sha256Hash(newPassword, "").toHex();
+        newPassword = new Sha256Hash(newPassword).toHex();
 
         //更新密码
 //        int count = sysUserService.updatePassword(getUserId(), password, newPassword);
-//        if(count == 0){
+//        if (count == 0) {
 //            return R.error("原密码不正确");
 //        }
 

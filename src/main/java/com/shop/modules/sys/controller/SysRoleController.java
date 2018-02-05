@@ -66,12 +66,12 @@ public class SysRoleController extends AbstractController {
         //查询角色对应的菜单
         HashSet<Long> menuIdList = new HashSet<Long>();
         Iterator<SysMenu> iterator = role.getSysMenus().iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             SysMenu menu = iterator.next();
             menuIdList.add(menu.getId());
         }
 
-        return R.ok().put("role", role).put("menuIdList",menuIdList);
+        return R.ok().put("role", role).put("menuIdList", menuIdList);
     }
 
     /**
@@ -81,26 +81,39 @@ public class SysRoleController extends AbstractController {
     @RequestMapping("/save")
     @RequiresPermissions("sys:role:save")
     public R save(SysRole role) {
-        role.setUserId(getUserId());
+        SysRole sysRole;
+        if (role.getId() == null) {
+            sysRole = new SysRole();
+            sysRole.setUserId(getUserId());
+        } else {
+            sysRole=sysRoleService.findOne(role.getId());
+        }
+        //更新角色
+        sysRole.setName(role.getName());
+        sysRole.setRemark(role.getRemark());
         //更新菜单
         String[] menuIdLists = request.getParameterValues("menuIdList[]");
-        HashSet<Long> menuIds = new HashSet<Long>();
-        for (String menuId : menuIdLists) {
-            menuIds.add(Long.parseLong(menuId));
+        if (menuIdLists != null) {
+            HashSet<Long> menuIds = new HashSet<Long>();
+            for (String menuId : menuIdLists) {
+                menuIds.add(Long.parseLong(menuId));
+            }
+            List<SysMenu> menuList = sysMenuService.findAll(menuIds);
+            sysRole.setSysMenus(new HashSet<SysMenu>(menuList));
+        } else {
+            sysRole.setSysMenus(null);
         }
-        List<SysMenu> menuList = sysMenuService.findAll(menuIds);
-        HashSet<SysMenu> menuSet = new HashSet<SysMenu>(menuList);
-        role.setSysMenus(menuSet);
-        sysRoleService.save(role);
+        sysRoleService.save(sysRole);
         return R.ok();
     }
+
     /**
      * 删除角色
      */
     @SysLog("删除角色")
     @RequestMapping("/delete")
     @RequiresPermissions("sys:role:delete")
-    public R delete(@RequestBody Long[] roleIds){
+    public R delete(@RequestBody Long[] roleIds) {
         sysRoleService.deleteBatch(roleIds);
 
         return R.ok();

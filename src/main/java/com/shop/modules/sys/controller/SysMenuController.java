@@ -1,6 +1,7 @@
 package com.shop.modules.sys.controller;
 
 import com.shop.common.annotation.SysLog;
+import com.shop.common.utils.Constant;
 import com.shop.common.utils.R;
 import com.shop.modules.sys.domain.SysMenu;
 import com.shop.modules.sys.service.ShiroService;
@@ -28,8 +29,14 @@ public class SysMenuController extends AbstractController {
      */
     @RequestMapping("/nav")
     public R nav() {
-        List<SysMenu> menuList = sysMenuService.findNotButtonList();
-        Set<String> permissions = shiroService.getUserPermissions(1L);
+        Long userId = getUserId();
+        List<SysMenu> menuList;
+        if (userId == Constant.SUPER_ADMIN) {
+            menuList = sysMenuService.findMenuList();
+        } else {
+            menuList = sysMenuService.findUserMenuList(getUserId());
+        }
+        Set<String> permissions = shiroService.getUserPermissions(getUserId());
         return R.ok().put("menuList", menuList).put("permissions", permissions);
     }
 
@@ -50,7 +57,7 @@ public class SysMenuController extends AbstractController {
     @RequiresPermissions("sys:menu:select")
     public R select() {
         //查询列表数据
-        List<SysMenu> menuList = sysMenuService.findNotButtonList();
+        List<SysMenu> menuList = sysMenuService.findMenuList();
 
         //添加顶级菜单
         SysMenu root = new SysMenu();
@@ -60,16 +67,18 @@ public class SysMenuController extends AbstractController {
         menuList.add(root);
         return R.ok().put("menuList", menuList);
     }
+
     /**
      * 菜单信息
      */
     @RequestMapping("/info/{menuId}")
     @RequiresPermissions("sys:menu:info")
-    public R info(@PathVariable("menuId") Long menuId){
+    public R info(@PathVariable("menuId") Long menuId) {
         SysMenu menu = sysMenuService.findByIdEquals(menuId);
         SysMenu parent = sysMenuService.findByIdEquals(menu.getParentId());
-        return R.ok().put("menu", menu).put("parent",parent);
+        return R.ok().put("menu", menu).put("parent", parent);
     }
+
     /**
      * 保存
      */

@@ -67,7 +67,6 @@ public class testCart {
     @Test
     public void findUserCart() {
         User user = userService.loginWx();
-        cartRepository.findAllByUserEquals(user);
     }
 
     @Test

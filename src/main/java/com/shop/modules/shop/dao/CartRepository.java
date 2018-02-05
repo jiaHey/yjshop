@@ -33,6 +33,4 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     public Cart findByIdEquals(Long id);
 
     public void deleteByUserEquals(User user);
-
-    public List<Cart> findAllByUserEquals(User user);
 }

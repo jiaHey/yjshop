@@ -12,145 +12,149 @@ import java.util.Set;
 
 @Entity
 public class SysUser implements Serializable {
-	/**
-	 * 用户ID
-	 */
-	@Id
-	@GeneratedValue
-	private Long id;
 
-	/**
-	 * 用户名
-	 */
-	@NotBlank(message="用户名不能为空")
-	private String username;
+    public static String SIGNKEY = "yjshop";
+    /**
+     * 用户ID
+     */
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	/**
-	 * 密码
-	 */
-	@NotBlank(message="密码不能为空")
-	private String password;
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
+    private String username;
 
-	/**
-	 * 邮箱
-	 */
-	@NotBlank(message="邮箱不能为空")
-	@Email(message="邮箱格式不正确")
-	private String email;
+    /**
+     * 密码
+     */
+    @NotBlank(message = "密码不能为空")
+    private String password;
 
-	/**
-	 * 手机号
-	 */
-	private String mobile;
+    /**
+     * 邮箱
+     */
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式不正确")
+    private String email;
 
-	/**
-	 * 状态  0：禁用   1：正常
-	 */
-	private Integer status;
-	
-	/**
-	 * 角色
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "sys_role_menu",
-			joinColumns = @JoinColumn(name = "menuId", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id")
+    /**
+     * 手机号
+     */
+    private String mobile;
 
-	)
-	@JsonIgnore
-	private Set<SysRole> sysRoles;
-	
-	/**
-	 * 创建者
-	 */
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "userId",insertable = false,updatable = false)
-	@JsonIgnore
-	private SysUser sysUser;
+    /**
+     * 状态  0：禁用   1：正常
+     */
+    @Column(columnDefinition = "INT(11) UNSIGNED DEFAULT '0'")
+    private Integer status;
 
-	private Long userId;
+    /**
+     * 角色
+     */
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "sys_role_user",
+            joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "roleId", referencedColumnName = "id")
 
-	@Column(nullable = true, columnDefinition = "timestamp default current_timestamp")
-	private Date created;
+    )
+    @JsonIgnore
+    private Set<SysRole> sysRoles;
 
-	public Long getId() {
-		return id;
-	}
+    /**
+     * 创建者
+     */
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    @JsonIgnore
+    private SysUser sysUser;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Long userId;
 
-	public String getUsername() {
-		return username;
-	}
+    @Column(nullable = true, columnDefinition = "timestamp default current_timestamp")
+    private Date created;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public SysUser getSysUser() {
-		return sysUser;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public void setSysUser(SysUser sysUser) {
-		this.sysUser = sysUser;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public Date getCreated() {
-		return created;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+    public SysUser getSysUser() {
+        return sysUser;
+    }
 
-	public Set<SysRole> getSysRoles() {
-		return sysRoles;
-	}
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
 
-	public void setSysRoles(Set<SysRole> sysRoles) {
-		this.sysRoles = sysRoles;
-	}
+    public Date getCreated() {
+        return created;
+    }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public Set<SysRole> getSysRoles() {
+        return sysRoles;
+    }
+
+    public void setSysRoles(Set<SysRole> sysRoles) {
+        this.sysRoles = sysRoles;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
 }

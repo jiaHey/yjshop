@@ -25,7 +25,7 @@ public class OrderService {
     @Autowired
     private CartService cartService;
     @Autowired
-    private CartRepository cartRepository;
+    private CouponService couponService;
 
     public Order findDetailById(Long id) {
         return orderRepository.findByIdIs(id);
@@ -37,7 +37,7 @@ public class OrderService {
         order.setNumber(UtilOrder.genOrderNum());
         order.setStatus(OrderStatus.UNPAID);
         order.setUser(user);
-        List<Cart> carts = cartRepository.findAllByUserEquals(user);
+        List<Cart> carts = cartService.findCartByUserId(user.getId());
         Iterator<Cart> iterator = carts.iterator();
         Set<OrderGoods> orderGoodsSet = new HashSet<OrderGoods>();
         BigDecimal priceTotal = new BigDecimal(0);
@@ -53,6 +53,14 @@ public class OrderService {
             priceTotal = priceTotal.add(priceOrderGoods);
         }
         order.setOrderGoods(orderGoodsSet);
+        //优惠券
+        Coupon bestCoupon = couponService.getBestCoupon(user, carts);
+        if (bestCoupon != null) {
+            BigDecimal couponPrice = couponService.getCouponPrice(bestCoupon, carts);
+            priceTotal = couponPrice;
+            //消费优惠券
+            couponService.consumeCoupon(user, bestCoupon);
+        }
         order.setPrice(priceTotal);
         order.setAddressStr(address.getArea() + "" + address.getAddress());
         cartService.deleteByUserEquals(user);
@@ -71,7 +79,8 @@ public class OrderService {
     public Page<Order> findAllByUserEquals(User user, Pageable pageable) {
         return orderRepository.findAllByUserEquals(user, pageable);
     }
-    public Page<Order> findDetailByUserEquals(User user, Pageable pageable){
+
+    public Page<Order> findDetailByUserEquals(User user, Pageable pageable) {
         return orderRepository.findDetailByUserEquals(user, pageable);
     }
 

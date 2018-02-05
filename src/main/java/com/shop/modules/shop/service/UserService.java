@@ -41,8 +41,8 @@ public class UserService {
     private WxProperties wxProperties;
 
     public User loginWx() {
-//        User one = userRepository.findOne(1L);
-//        if (one != null) return one;
+        User one = userRepository.findOne(1L);
+        if (one != null) return one;
         User user;
         user = (User) session.getAttribute("user");
         if (user != null) return user;
